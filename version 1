@@ -1,0 +1,163 @@
+#include <stdio.h>
+#include <stdlib.h>
+#include <string.h>
+#include <time.h>
+#include <ctype.h>
+#include <conio.h>
+#define N 53
+char txt[1];
+char pais_oculto[20]; //matriz para la palabra a adivinar
+char paises[N][20]={"ALBANIA","ALEMANIA","ANDORRA","ARMENIA","AUSTRIA","BRASIL","BÉLGICA",
+"BIELORRUSIA","BULGARIA","CANADA","CHIPRE","CHINA","CHILE","CROACIA","DINAMARCA","ESLOVAQUIA","ESLOVENIA",
+"ESPAÑA","ESTONIA","RUSIA","FINLANDIA","FRANCIA","GEORGIA","GRECIA","HUNGRIA","IRLANDA","ISLANDIA",
+"ITALIA","JAPON","KAZAJISTAN","LETONIA","LIECHTENSTEIN","LITUANIA","LUXEMBURGO","MALTA","MADASCAR",
+"MOLDOVA","MONACO","MONTENEGRO","NIGERIA","NORUEGA","PERU","POLONIA","PORTUGAL","RUMANIA","SERBIA",
+"SUECIA","SUIZA","UCRANIA","USA","URUGUAY"}; 
+char palabra_original[1]; //para mostrar la palabra, si pierde el usuario.
+//se usa 
+void dibujo_ahorcado(int);
+char ingresar_letra(); //lee el caracter ingresado por el usuario
+void mostrar_palabra(int); //muestra el tamaño de la palabra pero con __
+
+
+main()
+{	char secreto,letra;
+	int palabra,fallas=0,aciertos=0,tam_pal=0,pais; //pais contiene el numero de la palabra de nuestro arreglo
+printf("\n\t=======================================");
+printf("\n\t           JUEGO DEL AHORCADO");
+printf("\n\t=======================================");
+printf("\nBienvenido al juego de ahorcado de paises.");
+printf("\n");
+printf("\n\t Tiene 5 intentos por palabra.");
+printf("\n Si la adivina correctamente, la palabra aparacera");
+printf("\n en su lugar correspondiente. De lo contrario, se le");
+printf("\n restara puntos hasta acompletar el ahorcado");
+printf("\n");
+printf("\n");
+
+//generacion de palabra aleatoria
+srand(time(NULL));
+palabra=rand()%N;
+txt[0]=palabra;
+pais=txt[0];
+
+printf("%s",paises[pais]); //comprovar la palabra aleatoria
+printf("\n");
+tam_pal=strlen(paises[pais]);
+
+
+mostrar_palabra(tam_pal);
+printf("\n");
+letra=ingresar_letra(); //prueba para ver que sirve toupper
+printf("%c",letra); 
+printf("\n");
+
+for(int i=0; i<=tam_pal; i++)
+{
+	printf("\nciclo"); //prueba que entra en el ciclo
+	if(letra==paises[palabra][i])
+	{
+	  aciertos++; //para guardar el numero de veces que esta la letra dentro de la palabra
+	  printf("\nEntro1");
+	  pais_oculto[i]=letra;
+	}
+	if(aciertos>0) //porque se incremento, se guarda la letra en la palabra
+	{ //aqui se va mostrar la palabra actualizada
+		printf(" %c ",pais_oculto[i]);
+		printf("\nEntro2");
+		fallas--;
+	} 
+ 	}
+}
+
+char ingresar_letra()
+{
+	char letra;
+ do{
+printf("\nIntroduzca una letra\n");
+fflush(stdin);
+letra=toupper(getchar());	
+} while(!isalpha(letra));
+return letra;
+}
+
+void mostrar_palabra(int tam_pal)
+{
+int i;
+for(i=0; i<tam_pal; i++)
+{
+pais_oculto[i]='_';
+printf(" %c ",pais_oculto[i]);
+}
+}
+
+void dibujo_ahorcado(int fallas)
+{
+	if(fallas<1)
+	{
+	printf("\n____");
+	printf("\n|  |");
+ 	printf("\n|  |");
+ 	printf("\n|");
+ 	printf("\n|");
+	printf("\n|");
+   	printf("\n|");
+ 	printf("\n|");
+ 	printf("\n----");
+	}
+	else{
+	switch (fallas)
+	{
+		case 1: printf("\n____");
+				printf("\n|  |");
+ 				printf("\n|  |");
+ 				printf("\n|  O ");
+ 				printf("\n|  |");
+ 				printf("\n|  |");
+ 				printf("\n|");
+ 				printf("\n|");
+ 			    printf("\n----");
+ 			    break;
+ 		case 2: printf("\n____");
+				printf("\n|  |");
+ 				printf("\n|  |");
+ 				printf("\n|  O");
+ 				printf("\n| /|");
+ 				printf("\n|  |");
+ 				printf("\n|");
+ 				printf("\n|");
+ 			    printf("\n----");
+ 			    break;
+		case 3: printf("\n____");
+				printf("\n|  |");
+ 				printf("\n|  |");
+ 				printf("\n|  O");
+ 				printf("\n| /|");
+ 				printf("\n|  |");
+ 				printf("\n| /");
+ 				printf("\n|");
+ 			    printf("\n----");
+ 			    break;
+ 		case 4: printf("\n____");
+				printf("\n|  |");
+ 				printf("\n|  |");
+ 				printf("\n|  O");
+ 				printf("\n| /|\\");
+ 				printf("\n|  |");
+ 				printf("\n| /");
+ 				printf("\n|");
+ 			    printf("\n----");
+ 			    break;
+ 		case 5: printf("\n____");
+				printf("\n|  |");
+ 				printf("\n|  |");
+ 				printf("\n|  O");
+ 				printf("\n| /|\"");
+ 				printf("\n|  |");
+ 				printf("\n| / \\");
+ 				printf("\n|");
+ 			    printf("\n----");
+ 			    break;
+ 			}
+ 			}
+}
